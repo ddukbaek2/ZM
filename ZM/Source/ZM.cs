@@ -31,20 +31,35 @@ namespace ZM
 		public ZM()
 		{
 			m_Parent = null;
-			m_Children.Clear();
+			m_Children = new List<ZM>();
 		}
 
 		public void SetParent(ZM model)
 		{
-			m_Parent = model;
+			var previousParent = m_Parent;
+			var nextParent = model;
+
+			if (previousParent != null)
+			{
+				previousParent.RemoveChild(this);
+				m_Parent = null;
+			}
+
+			if (nextParent != null)
+			{
+				nextParent.AddChild(this);
+				m_Parent = nextParent;
+			}
 		}
 
-		public void Add(ZM model)
+		public void AddChild(ZM model)
 		{
+			m_Children.Add(model);
 		}
 
-		public void Remove(ZM model)
+		public void RemoveChild(ZM model)
 		{
+			m_Children.Remove(model);
 		}
 	}
 }
